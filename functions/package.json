@@ -1,0 +1,32 @@
+{
+  "name": "functions",
+  "scripts": {
+    "standardize:win": "prettier **/*.ts --write",
+    "standardize:linux": "prettier '**/*.ts' --write",
+    "lint": "npm run standardize:linux && tslint --project tsconfig.json",
+    "build": "tsc",
+    "serve": "npm run build && firebase serve --port 3000 --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run standardize:linux && npm run shell -- --port 3000",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log --port 3000"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "~5.12.1",
+    "firebase-functions": "^1.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.13.5",
+    "tslint": "^5.10.0",
+    "typescript": "^2.5.3"
+  },
+  "private": true,
+  "prettier": {
+    "printWidth": 90,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "parser": "typescript"
+  }
+}
