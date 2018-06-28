@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { IPushNotification } from './push-notification'
 import { CallableContext } from 'firebase-functions/lib/providers/https'
+import { v4 } from 'uuid'
 
 admin.initializeApp()
 
@@ -30,14 +31,10 @@ function sendPushNotificationHandler(
   }
 
   return new Promise<IServerResponse>((resolve, reject) => {
-    console.log(data)
     const targetApps = data.target.map(m => m.mobileApp.language)
-    console.log(targetApps.join(', '))
     let message = ''
 
     targetApps.forEach(topic => {
-      console.log(topic)
-      console.log(data.title)
       sendNotification(
         topic,
         data.title,
@@ -74,12 +71,15 @@ function sendNotification(
   const payload: admin.messaging.MessagingPayload = {
     data: {
       articleId: articleId,
+      notId: v4(),
     },
     notification: {
       title: title,
       body: message,
       sound: 'default',
       badge: '1',
+      image: 'www/logo.png',
+      'content-available': '1',
     },
   }
 
@@ -87,8 +87,6 @@ function sendNotification(
     priority: 'high',
     contentAvailable: true,
   }
-
-  console.log(`/topics/${topic}`)
 
   return admin.messaging().sendToTopic(`/topics/${topic}`, payload, options)
 }

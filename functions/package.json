@@ -13,8 +13,10 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@types/uuid": "^3.4.3",
     "firebase-admin": "~5.12.1",
-    "firebase-functions": "^1.0.3"
+    "firebase-functions": "^1.0.3",
+    "uuid": "^3.3.0"
   },
   "devDependencies": {
     "prettier": "^1.13.5",
